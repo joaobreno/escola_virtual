@@ -52,3 +52,48 @@ class UserRegisterForm(UserCreationForm):
             raise ValidationError("As senhas não coincidem.")
 
         return password2
+    
+
+
+class RegisterStudentForm(forms.Form):
+
+    nome = forms.CharField(
+        label='Nome',
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'type': "text", 'placeholder': "Nome (Apelido)"})
+    )
+
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={'type': "text", 'class': "form-control",  'placeholder': "E-mail"}),
+        required=True,
+        max_length=200
+    )
+
+    data_nascimento = forms.CharField(
+        widget=forms.TextInput(attrs={'type': "date", 'class': "form-control"}),
+        required=True
+    )
+
+    endereco = forms.CharField(
+        label='Endereço',
+        max_length=255,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'type': "text", 'placeholder': "Endereço Completo"})
+    )
+
+    telefone = forms.CharField(
+        label='Telefone',
+        max_length=18,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'type': "text", 'placeholder': "Telefone", 'oninput': "mascaraTelefone(this)"})
+    )
+
+
+    def __init__(self, *args, **kwargs):
+        estudante = kwargs.pop('estudante', None)
+        super(RegisterStudentForm, self).__init__(*args, **kwargs)
+
+        if estudante:
+            self.fields['nome'].initial = estudante.nome
+            self.fields['email'].initial = estudante.email
+            self.fields['data_nascimento'].initial = estudante.data_nascimento.strftime("%Y-%m-%d")
+            self.fields['endereco'].initial = estudante.endereco
+            self.fields['telefone'].initial = estudante.telefone

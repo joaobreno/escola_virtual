@@ -52,7 +52,7 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="" class="logo d-flex align-items-center">
+      <a href="{% url 'home' %}" class="logo d-flex align-items-center">
         <span class="d-none d-lg-block">EscolaVirtual</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -114,23 +114,23 @@
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
-        <a class="nav-link " href="">
+        <a class="nav-link " href="{% url 'home' %}">
           <i class="bi bi-person"></i>
-          <span>Lista de Colaboradores</span>
+          <span>Lista de Estudantes</span>
         </a>
       </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="">
-          <i class="bi bi-journal-text"></i>
-          <span>Cadastro de  Colaborador</span>
+          <i class="bi bi-pen-fill"></i>
+          <span>Lista de  Professores (Desabilitado)</span>
         </a>
       </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="">
-          <i class="bi bi-clock-history"></i>
-          <span>Registros</span>
+          <i class="bi bi-easel-fill"></i>
+          <span>Lista de Cursos (Desabilitado)</span>
         </a>
       </li>
 

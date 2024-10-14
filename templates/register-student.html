@@ -1,0 +1,117 @@
+{% extends "partials/base.html" %} {% load static %} {% block content %}
+
+<style>
+  .disable-form {
+    background-color: #f0f0f0; 
+    color: #888; 
+    border: 1px solid #ccc; 
+    padding: 8px; 
+    cursor: not-allowed;
+    pointer-events: none;
+}
+</style>
+
+<div class="pagetitle">
+  <h1>{{label_form}} de Matrícula</h1>
+  <nav>
+    <!-- <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+      <li class="breadcrumb-item">Forms</li>
+      <li class="breadcrumb-item active">Elements</li>
+    </ol> -->
+  </nav>
+</div><!-- End Page Title -->
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-6">
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Formulário de {{label_form}}</h5>
+
+          <!-- General Form Elements -->
+          <form action="{% if estudante %}{% url 'edit-student' estudante.id %}{% else %}{% url 'add-student' %}{% endif %}" method="POST" id="formCadastro">
+            {% csrf_token %}
+
+            <div class="row mb-3">
+              <label for="inputText" class="col-sm-2 col-form-label">Nome</label>
+              <div class="col-sm-10">
+                {{ form.nome }}
+              </div>
+            </div>
+
+            
+            <div class="row mb-3">
+              <label for="inputEmail" class="col-sm-2 col-form-label">E-mail</label>
+              <div class="col-sm-10">
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div class="text-danger">
+                        {{ form.email.errors.0 }}
+                    </div>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="inputDate" class="col-sm-2 col-form-label">Data de Nasc.</label>
+                <div class="col-sm-4">
+                  {{ form.data_nascimento }}
+                </div>
+
+                <label for="inputText" class="col-sm-2 col-form-label text-end">Telefone</label>
+                <div class="col-sm-4">
+                  {{ form.telefone }}
+                </div>
+            </div>
+
+
+            <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">Endereço</label>
+                <div class="col-sm-10">
+                  {{ form.endereco }}
+                </div>
+            </div>
+            
+            <br>
+
+            <div class="row mb-3">
+              <div class="col-sm-12" style="display: flex;align-items: center;justify-content: center;">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+              </div>
+            </div>
+
+          </form><!-- End General Form Elements -->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<script type="text/javascript">
+    {% if form.email.errors %}
+        document.getElementById('id_email').style.borderColor = 'red';
+    {% endif %}
+
+    function mascaraTelefone(input) {
+        var v = input.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+        
+        if (v.length <= 10) {
+            // Formato para números fixos (10 dígitos)
+            v = v.replace(/^(\d{2})(\d)/g, '($1) $2'); // Coloca parênteses no DDD
+            v = v.replace(/(\d{4})(\d)/, '$1-$2');     // Coloca hífen entre o quarto e o quinto dígito
+        } else {
+            // Formato para números móveis (11 dígitos)
+            v = v.replace(/^(\d{2})(\d{1})(\d{4})(\d{4})/, '($1) $2 $3-$4'); // Coloca hífen entre o quarto e o quinto dígito e espaço após o DDD
+        }
+        
+        input.value = v.substring(0, 16); // Limita o tamanho do input a 16 caracteres (incluindo espaços, parênteses e hífen)
+    }
+
+</script>
+
+{% endblock %}

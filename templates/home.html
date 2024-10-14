@@ -1,35 +1,102 @@
 {% extends "partials/base.html" %} {% load static %} {% block content %}
 
 <div class="pagetitle">
-    <h1>Lista Colaboradores</h1>
-    <!-- <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item">Tables</li>
-        <li class="breadcrumb-item active">General</li>
-      </ol>
-    </nav> -->
-  </div><!-- End Page Title -->
+  <h1>Estudantes Matriculados</h1>
+  <!-- <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+      <li class="breadcrumb-item">Tables</li>
+      <li class="breadcrumb-item active">General</li>
+    </ol>
+  </nav> -->
+</div><!-- End Page Title -->
 
-  <section class="section">
-    <div class="row">
-      <div class="col-lg-12">
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
 
-        <div class="card">
-          <div class="card-body">
-            <br>
-            <a href="">
-                <button type="button" class="btn btn-outline-primary">Inserir Novo Colaborador</button>
-            </a>
-            
-            <br>
-            <br><br>
+      <div class="card">
+        <div class="card-body">
+          <br>
+          <a href="{% url 'add-student' %}">
+              <button type="button" class="btn btn-outline-primary">Matricular Estudante</button>
+          </a>
+          
+          <br>
+          <br><br>
+          {% if estudantes %}
+            <!-- Default Table -->
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#Matrícula</th>
+                  <th scope="col">Nome</th>
+                  <th scope="col">E-mail</th>
+                  <th scope="col">Telefone</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for estudante in estudantes %}
+                    <tr>
+                    <th scope="row">{{estudante.matricula}}</th>
+                    <td><a href="{{ estudante.get_edit_url }}">{{ estudante.nome }}</a></td>
+                    <td>{{estudante.email}}</td>
+                    <td>{{estudante.telefone}}</td>
+                    <td>
+                        <a href="{% url 'edit-student' estudante.id %}"><i class="bi bi-box-arrow-in-right" style="margin-right: 10px;"></i></a>
+                        <i class="bi bi-trash" onclick="modalQuestion('{{estudante.id}}','{{estudante.nome}}', '{{estudante.matricula}}')"></i></td>
+                    </tr>
+                {% endfor %}
 
-          </div>
+              </tbody>
+            </table>
+          {% else %}
+            <em>Não há estudantes matriculados.</em>
+          {% endif %}
+          <!-- End Default Table Example -->
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.3.5/dist/sweetalert2.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.3.5/dist/sweetalert2.min.js"></script>
+<script type="text/javascript">
+  function modalQuestion(id, nome, matricula) {
+    Swal.fire({
+      title: 'Deseja excluir o estudante?',
+      text: 'Tem certeza que quer excluir o estudante '+ nome + ', matrícula '+ matricula +'?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'SIM',
+      confirmButtonColor: "#238E68",
+      cancelButtonText: 'NÃO'
+    }).then((result) => {
+      if (result.isConfirmed) {
+          $.ajax({
+              type: 'GET',
+              data: { 
+                  'id': id,
+              },
+              url: "{% url 'delete-student' %}",
+              success: function (data) {
+                  if(data['result'] == true){
+                      location.reload();
+                  }
+              },
+              error: function (xhr, status, error) {
+                  console.error('Erro na solicitação:', status, error);
+              }
+          });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+          
+      }
+    });
+  }
+</script>
 
 {% endblock %}
