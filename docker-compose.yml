@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres_db
+    environment:
+      - POSTGRES_DB=school_db
+      - POSTGRES_USER=joaobreno
+      - POSTGRES_PASSWORD=180695
+      - POSTGRES_HOST=postgres_db
+      - POSTGRES_PORT=5431
+
+  postgres_db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: school_db
+      POSTGRES_USER: joaobreno
+      POSTGRES_PASSWORD: 180695
+    ports:
+      - "5431:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

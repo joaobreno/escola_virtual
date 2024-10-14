@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-u51ast816ic6ui4f=9p3n0l2d!k$h0yqq(h_&gu_9w7k4_sit6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', 'web']
 
 
 # Application definition
@@ -85,11 +85,12 @@ WSGI_APPLICATION = 'server_school.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'school_db',
         'USER': 'joaobreno',
         'PASSWORD': '180695',
-        'HOST': 'localhost',
+        'HOST': 'postgres_db',
+        'PORT': '5432'
     }
 }
 

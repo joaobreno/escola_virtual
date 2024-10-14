@@ -7,7 +7,7 @@ import random
 from django.contrib.auth.models import User
 
 class Curso(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    usuario = models.ManyToManyField(User, related_name='cursos')
     nome = models.CharField(max_length=100)
     descricao = models.TextField(blank=True)
     codigo = models.CharField(max_length=10, unique=True)
@@ -21,7 +21,7 @@ class Curso(models.Model):
 
 
 class Professor(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    usuario = models.ManyToManyField(User, related_name='professores')
     nome = models.CharField(max_length=200)
     email = models.EmailField(blank=True, null=True)
     telefone = models.CharField(max_length=15, blank=True)
@@ -34,7 +34,7 @@ class Professor(models.Model):
 
 
 class Estudante(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    usuario = models.ManyToManyField(User, related_name='estudantes')
     nome = models.CharField(max_length=200)
     matricula = models.CharField(max_length=10, unique=True)
     data_nascimento = models.DateField()
