@@ -18,4 +18,4 @@ class EstudanteSerializer(serializers.ModelSerializer):
         # Aqui você filtra os cursos com base no request.user
         request = self.context.get('request')
         if request and hasattr(request, 'user'):
-            self.fields['cursos'].queryset = Curso.objects.filter(user=request.user)
+            self.fields['cursos'].queryset = Curso.objects.filter(usuario=request.user)

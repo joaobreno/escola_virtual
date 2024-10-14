@@ -7,7 +7,7 @@ import random
 from django.contrib.auth.models import User
 
 class Curso(models.Model):
-    usuario = models.ManyToManyField(User, related_name='cursos')
+    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='cursos')
     nome = models.CharField(max_length=100)
     descricao = models.TextField(blank=True)
     codigo = models.CharField(max_length=10, unique=True)
@@ -21,7 +21,7 @@ class Curso(models.Model):
 
 
 class Professor(models.Model):
-    usuario = models.ManyToManyField(User, related_name='professores')
+    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='professores')
     nome = models.CharField(max_length=200)
     email = models.EmailField(blank=True, null=True)
     telefone = models.CharField(max_length=15, blank=True)
@@ -34,7 +34,7 @@ class Professor(models.Model):
 
 
 class Estudante(models.Model):
-    usuario = models.ManyToManyField(User, related_name='estudantes')
+    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='estudantes')
     nome = models.CharField(max_length=200)
     matricula = models.CharField(max_length=10, unique=True)
     data_nascimento = models.DateField()
@@ -42,7 +42,7 @@ class Estudante(models.Model):
     telefone = models.CharField(max_length=18, blank=True)
     email = models.EmailField(blank=True, null=True)
     endereco = models.CharField(max_length=255, blank=True)
-    cursos = models.ManyToManyField(Curso, related_name='estudantes')
+    cursos = models.ManyToManyField(Curso, related_name='estudantes', blank=True)
 
     def __str__(self):
         return self.nome
@@ -53,7 +53,7 @@ class Estudante(models.Model):
     def gerar_matricula(self):
         while True:
             matricula = f'ES{random.randint(1000000, 9999999)}'
-            if not Estudante.objects.filter(user=self.user,matricula=matricula).exists():
+            if not Estudante.objects.filter(usuario=self.usuario, matricula=matricula).exists():
                 return matricula
             
     def save(self, *args, **kwargs):

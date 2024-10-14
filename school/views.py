@@ -62,7 +62,7 @@ def signup(request):
 @login_required(login_url='index')
 @profile_user
 def home(request, context_dict):
-    estudantes = Estudante.objects.filter(user=request.user)
+    estudantes = Estudante.objects.filter(usuario=request.user)
     context_dict['estudantes'] = estudantes
     return render(request, 'home.html', context_dict)
 
@@ -98,7 +98,7 @@ def edit_student(request, context_dict, id=None):
 
             estudante.data_matricula = datetime.datetime.now()
 
-            estudante.user = request.user
+            estudante.usuario = request.user
 
             estudante.save()
 
@@ -148,7 +148,7 @@ class EstudanteViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         request = self.request
         if request.user.is_authenticated:
-            return Estudante.objects.filter(user=request.user)
+            return Estudante.objects.filter(usuario=request.user)
         return Estudante.objects.none()
 
 
