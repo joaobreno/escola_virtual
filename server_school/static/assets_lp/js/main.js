@@ -8,7 +8,12 @@ jQuery(document).ready(function($) {
 
 	"use strict";
 
-	
+	$(window).on('load', function () {
+		$('#preloader-active').delay(450).fadeOut('slow');
+		$('body').delay(450).css({
+		  'overflow': 'visible'
+		});
+	  });
 
 	var siteMenuClone = function() {
 
@@ -200,18 +205,18 @@ jQuery(document).ready(function($) {
 
 
 
-		$('.slide-one-item').owlCarousel({
-	    center: false,
-	    items: 1,
-	    loop: true,
-	    smartSpeed: 900,
-	    autoplayTimeout: 7000,
-			stagePadding: 0,
-	    margin: 0,
-	    autoplay: true,
-	    nav: true,
-	    navText: ['<span class="icon-keyboard_arrow_left">', '<span class="icon-keyboard_arrow_right">'],
-	  });
+	// 	$('.slide-one-item').owlCarousel({
+	//     center: false,
+	//     items: 1,
+	//     loop: true,
+	//     smartSpeed: 900,
+	//     autoplayTimeout: 7000,
+	// 		stagePadding: 0,
+	//     margin: 0,
+	//     autoplay: true,
+	//     nav: true,
+	//     navText: ['<span class="icon-keyboard_arrow_left">', '<span class="icon-keyboard_arrow_right">'],
+	//   });
 
 		$('.slide-one-item').on('translated.owl.carousel', function(event) {
 			console.log('translated');
@@ -238,7 +243,7 @@ jQuery(document).ready(function($) {
 	    scrollProperty: 'scroll'
 	  });
 	};
-	siteStellar();
+	// siteStellar();
 
 	var siteCountDown = function() {
 
@@ -252,7 +257,7 @@ jQuery(document).ready(function($) {
 		});
 				
 	};
-	siteCountDown();
+	// siteCountDown();
 
 	var siteDatePicker = function() {
 
@@ -266,7 +271,7 @@ jQuery(document).ready(function($) {
 	var siteSticky = function() {
 		$(".js-sticky-header").sticky({topSpacing:0});
 	};
-	siteSticky();
+	// siteSticky();
 
 	// navigation
   var OnePageNavigation = function() {
@@ -284,7 +289,7 @@ jQuery(document).ready(function($) {
 
     });
   };
-  OnePageNavigation();
+//   OnePageNavigation();
 
   var siteScroll = function() {
 

@@ -3,10 +3,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>EscolaVirtual &mdash; Website by Colorlib</title>
+    <title>EscolaVirtual</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
+    <!-- Favicons -->
+    <link href="{% static 'assets/img/favicon.ico' %}" rel="icon">
     
     <link href="https://fonts.googleapis.com/css?family=Muli:300,400,700,900" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'assets_lp/fonts/icomoon/style.css' %}">
@@ -26,9 +28,22 @@
     <link rel="stylesheet" href="{% static 'assets_lp/css/aos.css' %}">
 
     <link rel="stylesheet" href="{% static 'assets_lp/css/style.css' %}">
+
+    <link href="{% static 'assets/css/preloader.css' %}" rel="stylesheet">
     
   </head>
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+
+  <div id="preloader-active">
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="preloader-inner position-relative">
+            <div class="preloader-circle"></div>
+            <div class="preloader-img pere-text">
+                <img src="{% static 'assets_lp/images/logo/loader.png' %}" alt="">
+            </div>
+        </div>
+    </div>
+  </div>
   
   <div class="site-wrap">
 
@@ -64,18 +79,19 @@
                 <div class="col-lg-6 mb-4">
                   <h1  data-aos="fade-up" data-aos-delay="100">Faça a Gestão de Cursos</h1>
                   <p class="mb-4"  data-aos="fade-up" data-aos-delay="200">Faça o Cadastro para gerir suas turmas e alunos agora mesmo!</p>
-                  <p data-aos="fade-up" data-aos-delay="300"><a href="#" class="btn btn-primary py-3 px-5 btn-pill">Cadastro</a></p>
+                  <p data-aos="fade-up" data-aos-delay="300"><a href="{% url 'signup' %}" class="btn btn-primary py-3 px-5 btn-pill">Cadastro</a></p>
 
                 </div>
 
                 <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="500">
-                  <form action="" method="post" class="form-box">
+                  <form action="{% url 'index' %}" method="post" class="form-box">
+                    {% csrf_token %}
                     <h3 class="h4 text-black mb-4">Login</h3>
                     <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Email Addresss">
+                      {{ form.email }}
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control" placeholder="Password">
+                      {{ form.password }}
                     </div>
 
                     <div class="form-group">
@@ -105,7 +121,7 @@
             <h3>Links</h3>
             <ul class="list-unstyled footer-links">
               <li><a href="{% url 'index' %}">Login</a></li>
-              <li><a href="#">Cadastro</a></li>
+              <li><a href="{% url 'signup' %}">Cadastro</a></li>
             </ul>
           </div>
 
@@ -144,7 +160,53 @@
   <script src="{% static 'assets_lp/js/aos.js' %}"></script>
   <script src="{% static 'assets_lp/js/jquery.fancybox.min.js' %}"></script>
   <script src="{% static 'assets_lp/js/jquery.sticky.js' %}"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <script>
 
+      toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      }
+
+      function noficationMessage(status, message) {
+        const toastrTypes = {
+          success: toastr.success,
+          warning: toastr.warning,
+          error: toastr.error,
+          info: toastr.info
+        };
+
+        const toastrFunction = toastrTypes[status] || toastr.info;
+
+        const displayMessage = message || "Mensagem não fornecida.";
+
+        toastrFunction(displayMessage);
+      }
+
+
+      {% if messages %}
+            {% for message in messages %}
+              console.log()
+              noficationMessage('{{ message.tags }}','{{ message }}')
+            {% endfor %}
+      {% endif %}
+
+  </script>
   
   <script src="{% static 'assets_lp/js/main.js' %}"></script>
     

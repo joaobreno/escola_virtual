@@ -51,6 +51,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# settings.py
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'school.backends.EmailBackend',
+]
+
+
 ROOT_URLCONF = 'server_school.urls'
 
 TEMPLATES = [
