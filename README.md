@@ -1,4 +1,4 @@
-# Trees Everywhere - Projeto Django para Youshop
+# EscolaVirtual - Projeto Django para FPF
 
 Este projeto é um teste de conhecimento que faz parte do processo seletivo da FPF e visa demonstrar minhas habilidades em Django.
 
@@ -14,9 +14,9 @@ Este projeto é um teste de conhecimento que faz parte do processo seletivo da F
 
 1. **Python:** >= 3.11.4
 
-2. **Postgres:**
+2. **Postgres**
 
-3. **Docker (Opcional):**
+3. **Docker (Opcional)**
 
 ## Instalação (Docker)
 - Instalar o <b><a style="color: #337BEA;" href="https://www.docker.com/">Docker</a></b>
