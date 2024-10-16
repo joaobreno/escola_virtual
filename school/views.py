@@ -96,7 +96,8 @@ def edit_student(request, context_dict, id=None):
             date_format = datetime.datetime(int(ano), int(mes), int(dia))
             estudante.data_nascimento = date_format
 
-            estudante.data_matricula = datetime.datetime.now()
+            if not estudante.data_matricula:
+                estudante.data_matricula = datetime.datetime.now()
 
             estudante.usuario = request.user
 
@@ -111,7 +112,7 @@ def edit_student(request, context_dict, id=None):
     else:
         if estudante:
             form_estudante = RegisterStudentForm(estudante=estudante)
-            if estudante.user != request.user:
+            if estudante.usuario != request.user:
                 return render(request, 'error-page.html', {'title': 'Forbidden 403',
                                                            'code': '403',
                                                            'message': 'Você não pode acessar essa página!'})
@@ -121,6 +122,7 @@ def edit_student(request, context_dict, id=None):
     context_dict['form'] = form_estudante
     context_dict['estudante'] = estudante
     return render(request, 'register-student.html', context_dict)
+
 
 @login_required(login_url='index')
 def delete_student(request):
@@ -134,10 +136,6 @@ def delete_student(request):
         redirect_url = reverse('home', args=[])
         return HttpResponseRedirect(redirect_url)
 
-# @login_required(login_url='index')
-# @profile_user
-# def list_students(request, context_dict):
-#     return render(request, 'home.html', context_dict)
 
 
 class EstudanteViewSet(viewsets.ModelViewSet):
